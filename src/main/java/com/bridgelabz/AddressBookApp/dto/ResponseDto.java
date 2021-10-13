@@ -1,6 +1,9 @@
 package com.bridgelabz.AddressBookApp.dto;
 
 /**
+ * This is a response class which provides the response regarding
+ * data transfer.
+ *
  * @author Ashwith
  * @version 0.0.1
  * @since 13-10-2021
