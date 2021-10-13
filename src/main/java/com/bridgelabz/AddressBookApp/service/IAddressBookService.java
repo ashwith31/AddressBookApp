@@ -15,7 +15,7 @@ public interface IAddressBookService {
 
     AddressBook addAddress(AddressBookDto addressBookDto);
 
-    AddressBook UpdateAddress(AddressBookDto addressBookDto);
+    AddressBook UpdateAddress(int id, AddressBookDto addressBookDto);
 
     void deleteAddrees(int addrId);
 }
