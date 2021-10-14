@@ -41,7 +41,7 @@ public class AddressBookService implements IAddressBookService {
     public AddressBook UpdateAddress(int contactId, AddressBookDto addressBookDto) {
         AddressBook addressBook = this.getAddressBookDataById(contactId);
         addressBook.setName(addressBookDto.getName());
-        addressBook.setNumber(addressBookDto.getNumber());
+        addressBook.setPhoneNumber(addressBookDto.getNumber());
         addressBookList.set(contactId-1,addressBook);
         return addressBook;
     }

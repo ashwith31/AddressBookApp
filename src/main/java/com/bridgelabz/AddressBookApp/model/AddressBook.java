@@ -20,13 +20,13 @@ public class AddressBook {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    private long number;
+    private long phoneNumber;
     private int pincode;
 
     public AddressBook(int id, AddressBookDto addressBookDto) {
         this.id = id;
         this.name = addressBookDto.getName();
-        this.number = addressBookDto.getNumber();
+        this.phoneNumber = addressBookDto.getNumber();
         this.pincode = addressBookDto.getPincode();
     }
 }
