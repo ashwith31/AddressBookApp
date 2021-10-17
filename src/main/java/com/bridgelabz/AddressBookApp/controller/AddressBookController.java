@@ -1,6 +1,7 @@
 package com.bridgelabz.AddressBookApp.controller;
 
 import com.bridgelabz.AddressBookApp.dto.AddressBookDto;
+import com.bridgelabz.AddressBookApp.dto.ResponseContactDto;
 import com.bridgelabz.AddressBookApp.dto.ResponseDto;
 import com.bridgelabz.AddressBookApp.model.AddressBook;
 import com.bridgelabz.AddressBookApp.service.AddressBookService;
@@ -45,15 +46,15 @@ public class AddressBookController {
      * This is a get request mapping which allows the client to request the
      * contact with a specific id.
      *
-     * @param contactId
+     * @param id
      * @return ResponseEntity of type ResponseDto
      */
-    @GetMapping("/get/{contactId}")
-    public ResponseEntity<ResponseDto> getContactById(@PathVariable int contactId) {
+    @GetMapping("/get/{id}")
+    public ResponseEntity<ResponseDto> getContactById(@PathVariable int id) {
         AddressBook addressBook = null;
-        addressBook = addressBookService.getAddressBookDataById(contactId);
+        addressBook = addressBookService.getAddressBookDataById(id);
         ResponseDto responseDto = new ResponseDto("Get Call Success For Id", addressBook);
-        log.info("You have successfully got the contacts with the id " + contactId);
+        log.info("You have successfully got the contacts with the id " + id);
         return new ResponseEntity<ResponseDto>(responseDto, HttpStatus.OK);
     }
 
@@ -77,16 +78,16 @@ public class AddressBookController {
      * This is a put request mapping which allows the client to update
      * the contact with a specific id.
      *
-     * @param contactId
+     * @param id
      * @param contactDTO
      * @return ResponseEntity of type ResponseDto
      */
-    @PutMapping("/update/{contactId}")
-    public ResponseEntity<ResponseDto> updateContact(@PathVariable(value = "contactId") int contactId,@Valid @RequestBody AddressBookDto contactDTO) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResponseDto> updateContact(@PathVariable(value = "id") int id,@Valid @RequestBody AddressBookDto contactDTO) {
         AddressBook addressBook = null;
-        addressBook = addressBookService.UpdateAddress(contactId, contactDTO);
+        addressBook = addressBookService.updateAddress(id, contactDTO);
         ResponseDto responseDto = new ResponseDto("updated Address ", addressBook);
-        log.info("You have successfully updated the the contact with id " + contactId);
+        log.info("You have successfully updated the the contact with id " + id);
         return new ResponseEntity<ResponseDto>(responseDto, HttpStatus.OK);
     }
 

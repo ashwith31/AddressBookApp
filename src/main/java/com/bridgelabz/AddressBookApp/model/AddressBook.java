@@ -23,10 +23,19 @@ public class AddressBook {
     private String phoneNumber;
     private String pincode;
 
-    public AddressBook(int id, AddressBookDto addressBookDto) {
+    public AddressBook(){
+
+    }
+
+    public void updated(AddressBookDto addressBookDto) {
         this.id = id;
         this.name = addressBookDto.getName();
         this.phoneNumber = addressBookDto.getPhoneNumber();
         this.pincode = addressBookDto.getPincode();
     }
+
+    public AddressBook(AddressBookDto addressBookDto) {
+        this.updated(addressBookDto);
+    }
+
 }

@@ -1,8 +1,12 @@
 package com.bridgelabz.AddressBookApp.service;
 
 import com.bridgelabz.AddressBookApp.dto.AddressBookDto;
+import com.bridgelabz.AddressBookApp.dto.ResponseContactDto;
 import com.bridgelabz.AddressBookApp.exceptions.CustomException;
 import com.bridgelabz.AddressBookApp.model.AddressBook;
+import com.bridgelabz.AddressBookApp.repository.AddressBookRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,45 +22,43 @@ import java.util.List;
  */
 @Service
 public class AddressBookService implements IAddressBookService {
-    private List<AddressBook> addressBookList = new ArrayList<>();
+     List<AddressBook> addressBookList = new ArrayList<>();
+
+    @Autowired
+    private AddressBookRepository addressBookRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public List<AddressBook> getAddressBookData() {
-        return addressBookList;
+        return  addressBookRepository.findAll();
     }
 
     @Override
-    public AddressBook getAddressBookDataById(int addrId) {
-        return addressBookList.stream().
-                filter(id -> id.getId() == addrId).
-                findFirst().
-                orElseThrow(() -> new CustomException("Contact id not found"));
+    public AddressBook getAddressBookDataById(int id) {
+        return addressBookRepository.findById(id)
+                .orElseThrow(()-> new CustomException("Invalid Adderss"));
     }
 
     @Override
     public AddressBook addAddress(AddressBookDto addressBookDto) {
         AddressBook addressBook = null;
-        addressBook = new AddressBook(addressBookList.size()+1,addressBookDto);
-        addressBookList.add(addressBook);
-        return addressBook;
+        modelMapper.map(addressBookDto, ResponseContactDto.class);
+        addressBook = new AddressBook(addressBookDto);
+        return addressBookRepository.save(addressBook);
     }
 
     @Override
-    public AddressBook UpdateAddress(int contactId, AddressBookDto addressBookDto) {
-        AddressBook addressBook = this.getAddressBookDataById(contactId);
-        addressBook.setName(addressBookDto.getName());
-        addressBook.setPhoneNumber(addressBookDto.getPhoneNumber());
-        addressBookList.set(contactId-1,addressBook);
-        return addressBook;
+    public AddressBook updateAddress(int id, AddressBookDto addressBookDto) {
+        AddressBook addressBook = this.getAddressBookDataById(id);
+        modelMapper.map(addressBookDto, addressBook);
+        return addressBookRepository.save(addressBook);
     }
 
     @Override
     public void deleteAddrees(int addrId) {
-        addressBookList.stream().
-                filter(id -> id.getId() == addrId).
-                findFirst().
-                orElseThrow(() -> new CustomException("Employee id not found"));
-
-        addressBookList.remove(addrId-1);
+       AddressBook addressBook = this.getAddressBookDataById(addrId);
+       addressBookRepository.delete(addressBook);
     }
 }
